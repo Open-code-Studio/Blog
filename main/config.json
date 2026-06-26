@@ -11,7 +11,7 @@
       "route": "/hi",
       "file": "hi!.md",
       "title": "👋 Hi! 欢迎来到我的博客",
-      "date": "2026-06-15",
+      "date": "2026-06-27",
       "icon": "home",
       "tags": ["博客", "随笔","介绍"],
       "excerpt": "这是我的第一篇博客文章！使用 Material Design 3 风格构建的简洁博客站点，支持深色/浅色主题切换和 Markdown 写作。"
