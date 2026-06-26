@@ -22,11 +22,11 @@
     "description": "一个简约、优雅的开源技术博客，基于 Material Design 3 构建。",
     "sections": [
       {
-        "title": "🎨 设计理念",
+        "title": "设计理念",
         "text": "本站采用 Google Material Design 3 设计系统，支持深色/浅色主题自动切换。所有文章使用 Markdown 编写，简洁高效。"
       },
       {
-        "title": "🛠 技术栈",
+        "title": "技术栈",
         "tags": ["HTML5", "CSS3", "JavaScript", "Material Design 3", "Marked.js", "Highlight.js"]
       },
       {

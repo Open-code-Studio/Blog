@@ -41,6 +41,6 @@
 > [!note]
 > 成为我们的成员：
 > 
-> 请前往b站 Open_Code_Studio 请求。
+> 请前往b站 [仓颉-OCS](https://space.bilibili.com/3706963399542957?spm_id_from=333.1007.0.0),youtube [仓颉-OCS](https://www.youtube.com/@OpenCodeStudio) 请求。
 
 感谢你的阅读！更多精彩内容即将到来 🚀
