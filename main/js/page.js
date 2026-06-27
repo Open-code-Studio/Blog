@@ -22,7 +22,8 @@
     const pg = Math.min(255, Math.round(g * factor));
     const pb = Math.min(255, Math.round(b * factor));
     root.style.setProperty('--md-sys-color-primary', '#'+[pr,pg,pb].map(v=>v.toString(16).padStart(2,'0')).join(''));
-    const cr = Math.round(r+(255-r)*0.75), cg = Math.round(g+(255-g)*0.75), cb = Math.round(b+(255-b)*0.75);
+    const containerFactor = isLight ? 0.75 : 0.35;
+    const cr = Math.round(r+(255-r)*containerFactor), cg = Math.round(g+(255-g)*containerFactor), cb = Math.round(b+(255-b)*containerFactor);
     root.style.setProperty('--md-sys-color-primary-container', '#'+[cr,cg,cb].map(v=>v.toString(16).padStart(2,'0')).join(''));
     root.style.setProperty('--md-sys-color-surface-tint', '#'+[pr,pg,pb].map(v=>v.toString(16).padStart(2,'0')).join(''));
   }

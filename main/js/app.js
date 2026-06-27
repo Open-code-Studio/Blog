@@ -27,8 +27,9 @@
     const pb = Math.min(255, Math.round(b * factor));
     const primaryHex = '#' + [pr,pg,pb].map(v => v.toString(16).padStart(2,'0')).join('');
     root.style.setProperty('--md-sys-color-primary', primaryHex);
-    // Container: very light tint
-    const cr = Math.round(r + (255-r)*0.75), cg = Math.round(g + (255-g)*0.75), cb = Math.round(b + (255-b)*0.75);
+    // Container: light tint for light mode, dark shade for dark mode
+    const containerFactor = isLight ? 0.75 : 0.35;
+    const cr = Math.round(r + (255-r)*containerFactor), cg = Math.round(g + (255-g)*containerFactor), cb = Math.round(b + (255-b)*containerFactor);
     root.style.setProperty('--md-sys-color-primary-container', '#'+[cr,cg,cb].map(v=>v.toString(16).padStart(2,'0')).join(''));
     root.style.setProperty('--md-sys-color-surface-tint', primaryHex);
   }
