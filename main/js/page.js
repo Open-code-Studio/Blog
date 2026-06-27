@@ -207,8 +207,9 @@
 
       let md = preprocessMarkdown(rawText);
       const renderer = new marked.Renderer();
-      renderer.heading = function({ text, depth }) {
-        const slug = text.toLowerCase().replace(/[^\w\u4e00-\u9fff]+/g, '-').replace(/^-+|-+$/g, '');
+      renderer.heading = function({ tokens, depth }) {
+        const text = this.parser.parseInline(tokens);
+        const slug = text.replace(/<[^>]*>/g, '').toLowerCase().replace(/[^\w\u4e00-\u9fff]+/g, '-').replace(/^-+|-+$/g, '');
         return `<h${depth} id="${slug}"><a class="heading-anchor" href="#${slug}" aria-hidden="true">#</a>${text}</h${depth}>`;
       };
       renderer.code = function({ text, lang }) {
@@ -232,9 +233,13 @@
       };
       marked.use({ renderer, breaks: true, gfm: true });
       let html = marked.parse(md);
-      // Direct string replace: convert markdown image syntax that survived parsing
-      html = html.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%">');
-      docBody.innerHTML = html;
+      html = html.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;display:block">');
+
+      // Safari WebView blocks images loaded via innerHTML on a live node.
+      // Workaround: parse HTML in a detached node, then move children.
+      const temp = document.createElement('div');
+      temp.innerHTML = html;
+      docBody.replaceChildren(...temp.childNodes);
 
       try { generateTOC(docBody); } catch (e) {}
 
