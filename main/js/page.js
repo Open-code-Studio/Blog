@@ -184,6 +184,11 @@
     md = md.replace(/<!--\s*#PROPERTY.*?-->/g, '');
     md = md.replace(/<div align="center">[\s\S]*?<\/div>/g, '');
     md = md.replace(/\n{3,}/g, '\n\n');
+    // Ensure images render reliably — convert to inline HTML before marked parsing
+    md = md.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (_, alt, src, title) => {
+      const t = title ? ` title="${title}"` : '';
+      return `<img src="${src}" alt="${alt}"${t} loading="lazy">`;
+    });
     return md.trim();
   }
 
@@ -213,9 +218,18 @@
       };
       renderer.code = function({ text, lang }) {
         const language = lang || '';
-        const validLang = language && hljs.getLanguage(language) ? language : '';
-        const highlighted = validLang ? hljs.highlight(text, { language: validLang }).value : escapeHtml(text);
-        return `<pre data-language="${language}"><code class="hljs${validLang?' language-'+validLang:''}">${highlighted}</code></pre>`;
+        let highlighted = escapeHtml(text);
+        let cls = '';
+        if (typeof hljs !== 'undefined' && language) {
+          try {
+            const validLang = hljs.getLanguage(language) ? language : '';
+            if (validLang) {
+              highlighted = hljs.highlight(text, { language: validLang }).value;
+              cls = ' language-' + validLang;
+            }
+          } catch (e) {}
+        }
+        return `<pre data-language="${language}"><code class="hljs${cls}">${highlighted}</code></pre>`;
       };
       renderer.link = function({ href, tokens }) {
         const isExternal = href && (href.startsWith('http://') || href.startsWith('https://'));
@@ -223,7 +237,7 @@
       };
       marked.use({ renderer, breaks: true, gfm: true });
       docBody.innerHTML = marked.parse(md);
-      generateTOC(docBody);
+      try { generateTOC(docBody); } catch (e) {}
 
       const readingTime = getReadingTime(rawText);
       const dateStr = config.date || new Date().toISOString().split('T')[0];
@@ -274,7 +288,7 @@
   }
 
   function waitForDeps() {
-    if (typeof marked !== 'undefined' && typeof hljs !== 'undefined') init();
+    if (typeof marked !== 'undefined') init();
     else setTimeout(waitForDeps, 100);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', waitForDeps);
