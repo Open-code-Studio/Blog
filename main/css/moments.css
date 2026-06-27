@@ -40,45 +40,26 @@
   margin-bottom: 12px;
 }
 
-/* Horizontal scrollable wrapper */
+/* Responsive grid wrapper */
 .moments-wrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 16px;
-  overflow-x: auto;
-  padding: 4px 0 12px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-}
-
-.moments-wrapper::-webkit-scrollbar {
-  height: 5px;
-}
-
-.moments-wrapper::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.moments-wrapper::-webkit-scrollbar-thumb {
-  background: var(--md-sys-color-outline-variant);
-  border-radius: var(--md-sys-shape-full);
 }
 
 /* Individual moment card */
 .moment-card {
-  flex: 0 0 340px;
-  max-width: 340px;
-  scroll-snap-align: start;
   border-radius: var(--md-sys-shape-large);
   background-color: var(--md-sys-color-surface-container-low);
   border: 1px solid var(--md-sys-color-outline-variant);
-  padding: 20px;
+  padding: 24px 28px;
   transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
   display: flex;
   flex-direction: column;
   gap: 14px;
   opacity: 1;
   transform: none;
+  cursor: default;
 }
 
 .moment-card:hover {
@@ -170,18 +151,27 @@
 /* === Responsive === */
 @media (max-width: 768px) {
   .moment-card {
-    flex: 0 0 300px;
-    max-width: 300px;
-    padding: 16px;
+    padding: 18px 20px;
   }
+}
 
+@media (min-width: 769px) {
   .moments-wrapper {
-    gap: 12px;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1300px) {
   .moments-section {
     max-width: 1320px;
+  }
+
+  .moments-wrapper {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .moment-card {
+    padding: 28px 32px;
   }
 }

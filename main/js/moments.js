@@ -72,7 +72,7 @@
     section.style.display = 'block';
 
     if (countEl) countEl.textContent = `共 ${moments.length} 条`;
-    if (descEl) descEl.textContent = '左右滑动查看更多瞬间';
+    if (descEl) descEl.style.display = 'none';
 
     // Sort by date descending
     const sorted = [...moments].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
