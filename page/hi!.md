@@ -11,7 +11,7 @@
 我们是OCS，一群热爱MC和代码的初中生。
 
 ### 成员介绍
-![OCS成员](/page/images/OCS-long.png)
+![OCS成员](../page/images/OCS-long.png)
 > 仓颉:
 >
 > OCS的核心程序员/管理员.
