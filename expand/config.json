@@ -1,7 +1,7 @@
 {
   "extensions": {
     "expand-test": {
-      "enabled": true
+      "enabled": false
     }
   }
 }
