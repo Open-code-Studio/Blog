@@ -231,26 +231,10 @@
         return `<a href="${href}"${isExternal?' target="_blank" rel="noopener noreferrer"':''}>${this.parser.parseInline(tokens)}</a>`;
       };
       marked.use({ renderer, breaks: true, gfm: true });
-      docBody.innerHTML = marked.parse(md);
-
-      // Fix images after marked parsing — find markdown image paras and replace with real <img>
-      docBody.querySelectorAll('p').forEach(p => {
-        const m = p.innerHTML.match(/^<img\b[^>]*>$/);
-        if (m) {
-          // marked.js rendered the image as an <img> inside a <p> (block image)
-          p.replaceWith(...p.childNodes);
-        }
-        // Also handle the case where the text content is a direct image URL pattern
-        const text = p.textContent.trim();
-        const imgMatch = text.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
-        if (imgMatch) {
-          const img = document.createElement('img');
-          img.src = imgMatch[2];
-          img.alt = imgMatch[1];
-          img.loading = 'lazy';
-          p.replaceWith(img);
-        }
-      });
+      let html = marked.parse(md);
+      // Direct string replace: convert markdown image syntax that survived parsing
+      html = html.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%">');
+      docBody.innerHTML = html;
 
       try { generateTOC(docBody); } catch (e) {}
 
