@@ -27,7 +27,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: zoom-out;
     }
 
     #viewer.dragging { cursor: grabbing; }
@@ -366,21 +365,9 @@
       }
 
       // === Event bindings ===
-      // Close
+      // Close: only via back button or Escape key
+      // (click-on-background removed to avoid accidental closes)
       $('#backBtn').addEventListener('click', goBack);
-      viewer.addEventListener('click', (e) => {
-        // Only close if clicked directly on the dark background, not on the image
-        if (e.target === viewer && !didDrag) {
-          goBack();
-        }
-        didDrag = false;
-      });
-
-      // Prevent clicks on the image itself from bubbling to viewer background logic
-      img.addEventListener('click', (e) => {
-        didDrag = false;
-        e.stopPropagation();
-      });
 
       // Keyboard
       document.addEventListener('keydown', (e) => {
