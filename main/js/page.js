@@ -184,10 +184,10 @@
     md = md.replace(/<!--\s*#PROPERTY.*?-->/g, '');
     md = md.replace(/<div align="center">[\s\S]*?<\/div>/g, '');
     md = md.replace(/\n{3,}/g, '\n\n');
-    // Ensure images render reliably — convert to inline HTML before marked parsing
+    // Ensure images render — convert to inline HTML before marked parsing
     md = md.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (_, alt, src, title) => {
       const t = title ? ` title="${title}"` : '';
-      return `<img src="${src}" alt="${alt}"${t} loading="lazy">`;
+      return `<img src="${src}" alt="${alt}"${t} style="max-width:100%;display:block">`;
     });
     return md.trim();
   }

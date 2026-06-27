@@ -206,14 +206,9 @@
 /* Images */
 .markdown-body img {
   max-width: 100%;
-  height: auto !important;
+  height: auto;
   border-radius: var(--md-sys-shape-medium);
   margin: 16px 0;
-  display: block;
-  min-height: 120px;
-  min-width: 200px;
-  background: var(--md-sys-color-surface-container-highest);
-  outline: 1px dashed var(--md-sys-color-outline-variant);
 }
 
 /* Definition lists */
