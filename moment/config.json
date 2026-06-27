@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "title": "瞬间",
+  "description": "记录生活中的每一个瞬间，最多100字 + 10张图",
+  "moments": [
+    {
+      "id": "1",
+      "text": "OCS的所有成员!",
+      "date": "2026-06-27",
+      "images": ["OCS-long.png"]
+    }
+  ]
+}
