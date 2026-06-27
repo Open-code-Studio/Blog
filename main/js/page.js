@@ -184,11 +184,6 @@
     md = md.replace(/<!--\s*#PROPERTY.*?-->/g, '');
     md = md.replace(/<div align="center">[\s\S]*?<\/div>/g, '');
     md = md.replace(/\n{3,}/g, '\n\n');
-    // Ensure images render — convert to inline HTML before marked parsing
-    md = md.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (_, alt, src, title) => {
-      const t = title ? ` title="${title}"` : '';
-      return `<img src="${src}" alt="${alt}"${t} style="max-width:100%;display:block">`;
-    });
     return md.trim();
   }
 
@@ -237,6 +232,26 @@
       };
       marked.use({ renderer, breaks: true, gfm: true });
       docBody.innerHTML = marked.parse(md);
+
+      // Fix images after marked parsing — find markdown image paras and replace with real <img>
+      docBody.querySelectorAll('p').forEach(p => {
+        const m = p.innerHTML.match(/^<img\b[^>]*>$/);
+        if (m) {
+          // marked.js rendered the image as an <img> inside a <p> (block image)
+          p.replaceWith(...p.childNodes);
+        }
+        // Also handle the case where the text content is a direct image URL pattern
+        const text = p.textContent.trim();
+        const imgMatch = text.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+        if (imgMatch) {
+          const img = document.createElement('img');
+          img.src = imgMatch[2];
+          img.alt = imgMatch[1];
+          img.loading = 'lazy';
+          p.replaceWith(img);
+        }
+      });
+
       try { generateTOC(docBody); } catch (e) {}
 
       const readingTime = getReadingTime(rawText);
